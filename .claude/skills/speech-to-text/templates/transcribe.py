@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 """ElevenLabs Scribe v2 transcription CLI.
 
+Default output: saves to <input-name>_<YYYY-MM-DD_HHMM>.<ext> next to the input.
+Use -o to override the path, or --stdout to skip saving.
+
 Usage:
-    python transcribe.py audio.mp3
-    python transcribe.py audio.mp3 -o out.txt
-    python transcribe.py call.mp3 --diarize --format srt -o subs.srt
-    python transcribe.py meeting.m4a --diarize --timestamps --format json
+    python transcribe.py audio.mp3                              # -> audio_2026-05-23_2034.txt
+    python transcribe.py call.mp3 --diarize                     # speaker labels
+    python transcribe.py call.mp3 --format srt                  # -> call_2026-05-23_2034.srt
+    python transcribe.py meeting.m4a --diarize --format json    # -> meeting_2026-05-23_2034.json
+    python transcribe.py audio.mp3 --stdout                     # print only, no file
+    python transcribe.py audio.mp3 -o /path/to/custom.txt       # explicit path
 """
 from __future__ import annotations
 
@@ -13,6 +18,7 @@ import argparse
 import json
 import os
 import sys
+from datetime import datetime
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -138,10 +144,19 @@ def transcribe(args: argparse.Namespace) -> int:
             output = result.text
 
     if args.output:
-        Path(args.output).write_text(output, encoding="utf-8")
-        print(f"Wrote {args.output} ({len(output)} chars)", file=sys.stderr)
+        out_path = Path(args.output)
+    elif args.stdout:
+        out_path = None
     else:
+        ext_map = {"text": ".txt", "json": ".json", "srt": ".srt"}
+        stamp = datetime.now().strftime("%Y-%m-%d_%H%M")
+        out_path = path.parent / f"{path.stem}_{stamp}{ext_map[args.format]}"
+
+    if out_path is None:
         print(output)
+    else:
+        out_path.write_text(output, encoding="utf-8")
+        print(f"Saved: {out_path} ({len(output)} chars)", file=sys.stderr)
 
     lang = getattr(result, "language_code", None)
     prob = getattr(result, "language_probability", None)
@@ -158,7 +173,14 @@ def main() -> int:
         epilog=__doc__,
     )
     parser.add_argument("input", help="Path to audio or video file")
-    parser.add_argument("-o", "--output", help="Output file (default: stdout)")
+    parser.add_argument(
+        "-o", "--output",
+        help="Output file path (default: <input-name>_<YYYY-MM-DD_HHMM>.<ext> next to input)",
+    )
+    parser.add_argument(
+        "--stdout", action="store_true",
+        help="Print to stdout only, do not save a file",
+    )
     parser.add_argument(
         "-f", "--format", choices=["text", "json", "srt"], default="text",
         help="Output format (default: text)",

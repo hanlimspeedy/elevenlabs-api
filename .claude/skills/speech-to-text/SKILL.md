@@ -105,13 +105,23 @@ ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:no
 
 **3-4. 샘플 테스트 선택 시 흐름**
 
+샘플 파일을 **원본과 같은 폴더에 의미 있는 이름으로** 저장합니다 (`/tmp` 에 두지 마세요). 그래야 자동 생성되는 전사 파일명에도 `_sample_120s_` 가 들어가 한눈에 구분됩니다.
+
 ```bash
-# 입력 확장자 보존 (예: .m4a)
-ffmpeg -y -i "<input>" -ss 0 -t 120 -c copy /tmp/sample.<ext> 2>/dev/null
+# 입력이 meeting.m4a 일 때: meeting_sample_120s.m4a 생성
+# (확장자/디렉토리는 원본을 따른다. 120 은 실제 사용한 초 수와 일치시킬 것)
+INPUT="<원본경로>"           # 예: meeting.m4a
+SEC=120
+STEM="${INPUT%.*}"
+EXT="${INPUT##*.}"
+SAMPLE="${STEM}_sample_${SEC}s.${EXT}"
+ffmpeg -y -i "$INPUT" -ss 0 -t "$SEC" -c copy "$SAMPLE" 2>/dev/null
 ```
-1. `/tmp/sample.<ext>` 로 전사 1회 실행 → 결과 출력
-2. 사용자에게 다시 묻기: "샘플 결과 OK 면 전체로 진행할까요?"
-3. 진행 응답이면 원본 파일로 전사 실행
+
+1. `$SAMPLE` 로 전사 1회 실행 → 자동으로 `<stem>_sample_120s_<YYYY-MM-DD_HHMM>.txt` 저장됨
+2. 결과 파일 경로와 내용 일부를 사용자에게 보여주기
+3. 사용자에게 다시 묻기: "샘플 결과 OK 면 전체 파일을 전사할까요?"
+4. 진행 응답이면 원본 파일로 전사 실행 (역시 자동 저장됨)
 
 **3-5. 전체 실행 선택 시 (또는 응답 없음)**
 
