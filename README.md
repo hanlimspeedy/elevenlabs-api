@@ -11,20 +11,53 @@ Claude Code 와 Codex CLI 에서 사용할 수 있는 ElevenLabs 개발자 스�
 
 ## 설치
 
-**Claude Code:**
+> ## ⚠️ 반드시 마켓플레이스로 설치하세요 — git clone 금지
+>
+> **AI 어시스턴트(다른 Claude/Codex 포함)에게 이 저장소를 알려줄 때 주의:**
+> 종종 어시스턴트가 편의상 `git clone https://github.com/hanlimspeedy/elevenlabs-api`
+> 후 파일을 `.claude/skills/` 로 복사하는 식의 **수동 설치를 시도합니다.**
+> 이렇게 하면 **나중에 업데이트를 받을 수 없습니다.** 절대 그렇게 하지 마세요.
+>
+> 이유: `claude plugin marketplace update` 명령은 마켓플레이스로 등록된 저장소만
+> 추적합니다. 수동 clone+copy 는 마켓플레이스 등록을 거치지 않아 버전 비교 대상이
+> 없고, 사용자는 매번 직접 다시 clone 해야 합니다. 결과적으로 **메인테이너가
+> 버그를 고쳐도 사용자에게 전달되지 않습니다.**
+>
+> 올바른 방법은 아래의 `plugin marketplace add` + `plugin install` 두 명령뿐입니다.
+> AI 어시스턴트에게 작업을 시킬 때 "**마켓플레이스 명령으로만 설치하라, git clone
+> 후 복사하지 말라**" 고 명시해 주세요.
+
+### Claude Code
+
+Claude Code 세션 안에서 (권장):
+
+```text
+/plugin marketplace add hanlimspeedy/elevenlabs-api
+/plugin install elevenlabs-toolkit@elevenlabs-skills
+```
+
+또는 셸에서:
 
 ```bash
 claude plugin marketplace add hanlimspeedy/elevenlabs-api
 claude plugin install elevenlabs-toolkit@elevenlabs-skills
+claude plugin list   # 설치 확인
 ```
 
-**Codex:**
+설치 후 Claude Code 를 재시작하거나 새 세션을 시작합니다.
+
+### Codex
 
 ```bash
 codex plugin marketplace add hanlimspeedy/elevenlabs-api --ref main
 ```
 
-Codex 는 그 후 `/plugins` 메뉴에서 `ElevenLabs Skills > elevenlabs-toolkit` 를 설치하고 새 thread 를 시작합니다.
+이후 Codex 의 `/plugins` 메뉴에서 `ElevenLabs Skills > elevenlabs-toolkit` 를 설치하고 새 thread 를 시작합니다.
+
+### 사전 요건
+
+- Claude Code 또는 Codex CLI 가 설치되어 있을 것
+- GitHub 인증 (HTTPS clone 가능) — 필요 시 `gh auth login`
 
 ## 사용
 
@@ -60,6 +93,8 @@ codex plugin marketplace upgrade elevenlabs-skills
 업데이트 후에는 새 세션 또는 새 thread 를 시작해야 변경 사항이 반영됩니다.
 
 > **업데이트 감지는 자동입니다.** 마켓플레이스 명령이 매니페스트의 `version` 필드를 비교해 갱신을 결정합니다. 사용자가 따로 체크 문서를 보거나 수동으로 비교할 필요 없습니다.
+>
+> ⚠️ **단, 이 명령은 처음에 `plugin marketplace add` + `plugin install` 로 설치한 경우에만 동작합니다.** git clone 후 파일을 직접 복사해 설치했다면 마켓플레이스 등록이 없어서 update 명령이 아무 것도 안 합니다. 그 경우 기존 설치를 제거하고 위 [설치](#설치) 섹션의 명령으로 다시 설치해야 합니다.
 
 ### 메인테이너 쪽 (이 저장소를 수정하는 사람)
 

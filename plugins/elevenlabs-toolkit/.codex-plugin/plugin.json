@@ -1,6 +1,6 @@
 {
   "name": "elevenlabs-toolkit",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "ElevenLabs API toolkit: speech-to-text transcription (Scribe v2) with Python CLI and skill-driven workflow.",
   "author": {
     "name": "hanlimspeedy"
