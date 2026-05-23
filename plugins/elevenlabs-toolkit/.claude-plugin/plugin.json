@@ -1,0 +1,10 @@
+{
+  "name": "elevenlabs-toolkit",
+  "description": "ElevenLabs API toolkit for Claude Code — speech-to-text transcription (Scribe v2) with cross-platform Python CLI, pre-flight length checks, and sample-testing workflow.",
+  "version": "0.1.0",
+  "author": {
+    "name": "hanlimspeedy"
+  },
+  "repository": "https://github.com/hanlimspeedy/elevenlabs-api",
+  "license": "MIT"
+}

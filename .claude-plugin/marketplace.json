@@ -1,0 +1,19 @@
+{
+  "name": "elevenlabs-skills",
+  "owner": {
+    "name": "hanlimspeedy"
+  },
+  "metadata": {
+    "description": "ElevenLabs developer skills for Claude Code — batch speech-to-text transcription via Scribe v2, with Python CLI and pre-flight length checks.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "elevenlabs-toolkit",
+      "source": "./plugins/elevenlabs-toolkit",
+      "description": "ElevenLabs API toolkit: speech-to-text CLI plus skill-driven workflow (.env check, pre-flight length probe, sample testing, auto-saved date-stamped transcripts).",
+      "category": "productivity",
+      "tags": ["elevenlabs", "speech-to-text", "transcription", "scribe", "audio", "claude-code"]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "elevenlabs-toolkit",
+  "version": "0.1.0",
+  "description": "ElevenLabs API toolkit: speech-to-text transcription (Scribe v2) with Python CLI and skill-driven workflow.",
+  "author": {
+    "name": "hanlimspeedy"
+  },
+  "repository": "https://github.com/hanlimspeedy/elevenlabs-api",
+  "license": "MIT",
+  "keywords": [
+    "elevenlabs",
+    "speech-to-text",
+    "transcription",
+    "scribe",
+    "audio",
+    "subtitles"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "ElevenLabs Toolkit",
+    "shortDescription": "Speech-to-text transcription via ElevenLabs Scribe v2",
+    "longDescription": "ElevenLabs developer skill package. Currently provides batch speech-to-text transcription using Scribe v2 (90+ languages, speaker diarization, word-level timestamps, SRT subtitle output). The skill auto-detects existing transcribe.py in the project, performs a pre-flight length check (ffprobe), offers sample testing on long audio (default 2-minute clip), and saves date-stamped transcripts next to the input file.",
+    "developerName": "hanlimspeedy",
+    "category": "Productivity"
+  }
+}

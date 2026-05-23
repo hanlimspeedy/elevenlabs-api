@@ -1,0 +1,20 @@
+{
+  "name": "elevenlabs-skills",
+  "interface": {
+    "displayName": "ElevenLabs Skills"
+  },
+  "plugins": [
+    {
+      "name": "elevenlabs-toolkit",
+      "source": {
+        "source": "local",
+        "path": "./plugins/elevenlabs-toolkit"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
