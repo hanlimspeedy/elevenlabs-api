@@ -11,32 +11,20 @@ Claude Code 와 Codex CLI 에서 사용할 수 있는 ElevenLabs 개발자 스�
 
 ## 설치
 
-> ## ⚠️ 반드시 마켓플레이스로 설치하세요 — git clone 금지
+> ## ⚠️ 반드시 마켓플레이스로 설치하세요 — `git clone` + 수동 복사 금지
 >
-> **AI 어시스턴트(다른 Claude/Codex 포함)에게 이 저장소를 알려줄 때 주의:**
-> 종종 어시스턴트가 편의상 `git clone https://github.com/hanlimspeedy/elevenlabs-api`
-> 후 파일을 `.claude/skills/` 로 복사하는 식의 **수동 설치를 시도합니다.**
-> 이렇게 하면 **나중에 업데이트를 받을 수 없습니다.** 절대 그렇게 하지 마세요.
->
-> 이유: `claude plugin marketplace update` 명령은 마켓플레이스로 등록된 저장소만
-> 추적합니다. 수동 clone+copy 는 마켓플레이스 등록을 거치지 않아 버전 비교 대상이
-> 없고, 사용자는 매번 직접 다시 clone 해야 합니다. 결과적으로 **메인테이너가
-> 버그를 고쳐도 사용자에게 전달되지 않습니다.**
->
-> 올바른 방법은 아래의 `plugin marketplace add` + `plugin install` 두 명령뿐입니다.
-> AI 어시스턴트에게 작업을 시킬 때 "**마켓플레이스 명령으로만 설치하라, git clone
-> 후 복사하지 말라**" 고 명시해 주세요.
+> AI 어시스턴트가 `git clone https://github.com/hanlimspeedy/elevenlabs-api`
+> 후 파일을 `.claude/skills/` 로 복사하는 식의 **수동 설치를 시도하면 거부하세요.**
+> 한 번은 동작하지만 **이후 `plugin marketplace update` 가 무력화되어 버그 수정,
+> 새 기능, 보안 패치를 받을 수 없게 됩니다.**
 
-### Claude Code
+### Claude Code — AI 어시스턴트(Claude) 가 직접 설치 가능
 
-Claude Code 세션 안에서 (권장):
+**Claude 에게 그냥 이렇게 부탁하세요:**
 
-```text
-/plugin marketplace add hanlimspeedy/elevenlabs-api
-/plugin install elevenlabs-toolkit@elevenlabs-skills
-```
+> "elevenlabs-api 플러그인을 `claude plugin` 셸 명령으로 설치해 줘. 슬래시 명령이나 git clone 은 쓰지 말고."
 
-또는 셸에서:
+Claude 는 Bash 로 아래 명령을 실행해 자동 설치합니다:
 
 ```bash
 claude plugin marketplace add hanlimspeedy/elevenlabs-api
@@ -44,20 +32,32 @@ claude plugin install elevenlabs-toolkit@elevenlabs-skills
 claude plugin list   # 설치 확인
 ```
 
-설치 후 Claude Code 를 재시작하거나 새 세션을 시작합니다.
+> **왜 슬래시 명령 (`/plugin ...`) 대신 셸 명령?**
+> 슬래시 명령은 Claude Code 세션 안에서만 동작해서 **AI 어시스턴트가 실행할 수 없습니다.** 반면 `claude plugin ...` 셸 명령은 AI 어시스턴트가 Bash 로 직접 호출 가능합니다. 그래서 사용자가 직접 타이핑할 필요가 없습니다.
+
+물론 사용자가 직접 입력해도 됩니다 (Claude Code 세션 안에서):
+
+```text
+/plugin marketplace add hanlimspeedy/elevenlabs-api
+/plugin install elevenlabs-toolkit@elevenlabs-skills
+```
+
+**설치 후 Claude Code 를 재시작하거나 새 세션을 시작**해야 스킬이 활성화됩니다.
 
 ### Codex
+
+Codex CLI 도 셸 명령으로 마켓플레이스 등록이 가능합니다:
 
 ```bash
 codex plugin marketplace add hanlimspeedy/elevenlabs-api --ref main
 ```
 
-이후 Codex 의 `/plugins` 메뉴에서 `ElevenLabs Skills > elevenlabs-toolkit` 를 설치하고 새 thread 를 시작합니다.
+이후 Codex `/plugins` 메뉴에서 `ElevenLabs Skills > elevenlabs-toolkit` 를 설치하고 새 thread 를 시작합니다.
 
 ### 사전 요건
 
-- Claude Code 또는 Codex CLI 가 설치되어 있을 것
-- GitHub 인증 (HTTPS clone 가능) — 필요 시 `gh auth login`
+- Claude Code 또는 Codex CLI 설치
+- GitHub HTTPS clone 가능 — 비공개 저장소나 인증 필요 시 `gh auth login`
 
 ## 사용
 
